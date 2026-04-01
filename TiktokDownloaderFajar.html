@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Unduh Video TikTok - Downloader Cepat & Gratis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', 'Poppins', sans-serif;
+            background: linear-gradient(145deg, #0f0f1a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        /* Main Card */
+        .card {
+            max-width: 750px;
+            width: 100%;
+            background: rgba(22, 22, 35, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #fe2c55 0%, #ff6b4a 100%);
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 span {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .sub {
+            color: rgba(255,255,255,0.85);
+            margin-top: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Content */
+        .content {
+            padding: 2rem 2rem 2rem;
+        }
+
+        /* URL Input */
+        .input-group {
+            background: #0e0e17;
+            border-radius: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            border: 1px solid #2c2c3a;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .input-group:focus-within {
+            border-color: #fe2c55;
+            box-shadow: 0 0 0 3px rgba(254, 44, 85, 0.3);
+        }
+
+        .url-icon {
+            padding: 0 1rem;
+            font-size: 1.4rem;
+            color: #fe2c55;
+        }
+
+        #videoUrl {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 1rem 0.5rem 1rem 0;
+            font-size: 1rem;
+            color: #f0f0f0;
+            outline: none;
+            font-weight: 500;
+        }
+
+        #videoUrl::placeholder {
+            color: #6c6c7e;
+            font-weight: 400;
+        }
+
+        .btn-download {
+            background: #fe2c55;
+            border: none;
+            margin: 6px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-download:hover {
+            background: #ff4a6e;
+            transform: scale(0.97);
+        }
+
+        /* info box */
+        .info-box {
+            background: #0b0b12;
+            border-radius: 1.5rem;
+            padding: 1rem 1.2rem;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #9a9ab0;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-left: 4px solid #fe2c55;
+        }
+
+        .info-box i {
+            font-size: 1.4rem;
+        }
+
+        /* result area */
+        .result-container {
+            margin-top: 2rem;
+            background: #111118;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.25s;
+            border: 1px solid #262632;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 1.5rem;
+            color: #fe2c55;
+            font-weight: 500;
+        }
+
+        .loader {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #2a2a36;
+            border-top: 3px solid #fe2c55;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .video-thumb {
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+            border-radius: 1.2rem;
+            background: #00000030;
+            border: 1px solid #2e2e3e;
+        }
+
+        .video-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .video-title {
+            font-weight: 600;
+            color: #eef;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 280px;
+        }
+
+        .btn-save {
+            background: #2b2b3b;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 2rem;
+            font-weight: bold;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-save:hover {
+            background: #fe2c55;
+            transform: scale(0.96);
+        }
+
+        .error-message {
+            color: #ff8a7a;
+            background: #2c1a1f;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            color: #5f5f77;
+        }
+
+        @media (max-width: 550px) {
+            .content {
+                padding: 1.5rem;
+            }
+            .btn-download {
+                width: 100%;
+                justify-content: center;
+                margin: 8px;
+            }
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 1.5rem;
+            }
+            .url-icon {
+                padding: 0.8rem 1rem 0;
+                text-align: center;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>
+            TikTok Downloader Fajarr
+            <span>Tanpa Watermark</span>
+        </h1>
+        <div class="sub">Tempelkan link video TikTok & unduh dalam kualitas HD</div>
+    </div>
+
+    <div class="content">
+        <div class="input-group">
+            <div class="url-icon">🔗</div>
+            <input type="text" id="videoUrl" placeholder="Contoh: https://www.tiktok.com/@username/video/1234567890123456789" autocomplete="off">
+            <button id="fetchBtn" class="btn-download">📥 Ambil Video</button>
+        </div>
+
+        <div class="info-box">
+            <span>⚠️</span>
+            <span>Pastikan URL video TikTok valid (bisa dari aplikasi atau browser). Proses menggunakan API publik (cors proxy).</span>
+        </div>
+
+        <!-- Tempat hasil -->
+        <div id="resultArea" class="result-container">
+            <div style="text-align: center; color: #7a7a94; padding: 1rem;">
+                ✨ Tempel URL dan klik "Ambil Video" ✨
+            </div>
+        </div>
+        <div class="footer-note">
+            🔒 Gratis & aman — Video tidak disimpan di server kami.
+        </div>
+    </div>
+</div>
+
+<script>
+    // Elemen DOM
+    const urlInput = document.getElementById('videoUrl');
+    const fetchBtn = document.getElementById('fetchBtn');
+    const resultArea = document.getElementById('resultArea');
+
+    // Fungsi untuk menampilkan loading state
+    function showLoading() {
+        resultArea.innerHTML = `
+            <div class="loading">
+                <div class="loader"></div>
+                <span>Memproses link TikTok, mohon tunggu...</span>
+            </div>
+        `;
+    }
+
+    // Fungsi menampilkan error
+    function showError(message) {
+        resultArea.innerHTML = `
+            <div class="error-message">
+                ⚠️ ${message}<br>
+                <span style="font-size:0.8rem;">Coba periksa URL atau coba lagi nanti.</span>
+            </div>
+        `;
+    }
+
+    // Fungsi untuk menampilkan hasil video + tombol download
+    function showVideoResult(videoData) {
+        // videoData diharapkan memiliki: videoUrl (tanpa watermark), cover, title (opsional)
+        const videoUrl = videoData.videoUrl;
+        const coverUrl = videoData.cover || '';
+        const description = videoData.title || 'Video TikTok';
+
+        if (!videoUrl) {
+            showError("Gagal mendapatkan link video. URL tidak valid atau video bersifat privat.");
+            return;
+        }
+
+        // Buat elemen preview dan download
+        resultArea.innerHTML = `
+            <div class="video-preview">
+                ${coverUrl ? `<video class="video-thumb" src="${coverUrl}" poster="${coverUrl}" controls preload="metadata"></video>` : `<div style="background:#1e1e2a; border-radius:1rem; padding:1rem; text-align:center">🎥 Preview tidak tersedia, tetapi video siap diunduh</div>`}
+                <div class="video-info">
+                    <div class="video-title" title="${escapeHtml(description)}">📌 ${escapeHtml(description.substring(0, 70))}${description.length > 70 ? '...' : ''}</div>
+                    <button id="directDownloadBtn" class="btn-save">⬇️ Unduh Video (HD)</button>
+                </div>
+                <div style="font-size:0.7rem; color:#8888aa; text-align:center; margin-top:6px;">
+                    Klik unduh untuk menyimpan video tanpa watermark
+                </div>
+            </div>
+        `;
+
+        // Pasang event listener tombol download
+        const downloadBtn = document.getElementById('directDownloadBtn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadVideoFromUrl(videoUrl);
+            });
+        }
+
+        // Jika ada video preview, coba juga tampilkan video element dengan source yang benar (opsional)
+        const videoElem = document.querySelector('.video-thumb');
+        if (videoElem && coverUrl && coverUrl !== videoUrl) {
+            // Jika coverUrl beda dengan videoUrl, tetap pakai video element untuk preview kecil (tapi hanya preview)
+            // Kita set video source ke coverUrl (bisa jadi thumbnail) , namun lebih baik set src ke videoUrl jika ingin preview sebenarnya
+            // Tapi biarkan saja sesuai API (cover biasanya gambar thumbnail). Agar pengalaman lebih baik, kita coba ganti ke videoUrl asli untuk preview
+            // namun karena bisa besar, tetap pakai video element untuk melihat langsung dari sumber videoUrl.
+            // Lebih baik: kita set video asli ke preview agar user bisa cek sebelum download.
+            if (videoElem.tagName === 'VIDEO') {
+                videoElem.src = videoUrl;
+                videoElem.controls = true;
+                videoElem.load();
+            }
+        }
+    }
+
+    // Fungsi download via anchor
+    function downloadVideoFromUrl(url) {
+        if (!url) return;
+        // Buat elemen <a> untuk trigger download
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `tiktok_video_${Date.now()}.mp4`; // atribut download untuk hint
+        anchor.target = '_blank';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+
+    // Helper escape HTML sederhana
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Fungsi utama mengambil data video dari API pihak ketiga (publik, support TikTok)
+    // Menggunakan 2 endpoint fallback: TikWM dan SSSTik untuk redundansi
+    async function fetchVideoFromTikTok(url) {
+        // Normalisasi URL: pastikan tidak ada spasi
+        let cleanUrl = url.trim();
+        if (!cleanUrl) throw new Error('URL kosong');
+        
+        // Validasi dasar apakah mengandung tiktok.com
+        if (!cleanUrl.includes('tiktok.com') && !cleanUrl.includes('vt.tiktok')) {
+            throw new Error('URL bukan berasal dari TikTok yang valid');
+        }
+
+        // Pendekatan: Coba API TikWM (https://tikwm.com/api/) support CORS & tidak butuh API key
+        // Endpoint: https://tikwm.com/api/ dengan parameter url
+        // Alternatif kedua: gunakan ssstik.io api (melalui proxy CORS)
+        
+        // Opsi 1: TikWM API (paling stabil)
+        try {
+            const tikwmEndpoint = `https://tikwm.com/api/?url=${encodeURIComponent(cleanUrl)}`;
+            const response = await fetch(tikwmEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                }
+            });
+            
+            if (!response.ok) throw new Error(`TikWM respond ${response.status}`);
+            const data = await response.json();
+            
+            if (data && data.code === 0 && data.data) {
+                const videoData = data.data;
+                // dapatkan video tanpa watermark (wm = 0 atau play)
+                let videoUrl = videoData.play || videoData.wmplay;
+                // prioritas no watermark: biasanya "play" adalah tanpa watermark
+                if (!videoUrl && videoData.images) {
+                    // jika slideshow (foto) bukan video, beri tahu
+                    throw new Error('Konten berupa foto/slide, tidak bisa download video');
+                }
+                if (!videoUrl) {
+                    // cek alternatif
+                    if (videoData.hdplay) videoUrl = videoData.hdplay;
+                    else throw new Error('Link video tidak ditemukan di response TikWM');
+                }
+                // Bersihkan URL jika mengandung karakter aneh
+                videoUrl = videoUrl.replace(/\\/g, '');
+                const cover = videoData.cover || '';
+                const title = videoData.title || 'TikTok Video';
+                return {
+                    videoUrl: videoUrl,
+                    cover: cover,
+                    title: title
+                };
+            } else {
+                throw new Error(data.msg || 'TikWM gagal memproses video');
+            }
+        } catch (error) {
+            console.warn('TikWM error, mencoba endpoint cadangan (SSSTik)...', error);
+            // Fallback: Menggunakan API dari ssstik (via herokuapp / CORS proxy)
+            return await fetchFromSSSTik(cleanUrl);
+        }
+    }
+
+    // Fungsi fallback menggunakan ssstik.io official API (tanpa API key) via CORS proxy
+    async function fetchFromSSSTik(url) {
+        // ssstik official memerlukan form data. Kita pakai endpoint: https://ssstik.io/abc?url=xxx sebenarnya lebih mudah menggunakan rapidapi,
+        // tapi kita akan gunakan metode scrap dengan proxy CORS alternatif: menggunakan "https://api.ryzendesu.vip/api/downloader/ssstik"
+        // ini adalah endpoint publik yang tersedia untuk download TikTok (tanpa watermark). Saya pilih yang stabil.
+        // Alternatif pakai API publik "https://api.tikmate.app/api/lookup" atau "tikdown.org" tidak reliable.
+        // Menggunakan ryzendesu API cukup stabil dan mendukung CORS.
+        try {
+            const proxyUrl = `https://api.ryzendesu.vip/api/downloader/ssstik?url=${encodeURIComponent(url)}`;
+            const response = await fetch(proxyUrl, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (!response.ok) throw new Error(`SSSTik fallback error ${response.status}`);
+            const result = await response.json();
+            
+            if (result && result.status === 200 && result.result) {
+                let videoUrl = result.result.video || result.result.video_watermark || result.result.video_url;
+                // Cari yang no watermark: biasanya .video (tanpa watermark)
+                if (result.result.video && !result.result.video.includes('watermark')) videoUrl = result.result.video;
+                else if (result.result.video_no_watermark) videoUrl = result.result.video_no_watermark;
+                else if (result.result.video_high) videoUrl = result.result.video_high;
+                
+                if (!videoUrl) {
+                    if (result.result.url) videoUrl = result.result.url;
+                    else throw new Error('Tidak menemukan link video dari ssstik');
+                }
+                const thumb = result.result.thumbnail || result.result.thumb || '';
+                const titleText = result.result.title || result.result.desc || 'TikTok Video';
+                return {
+                    videoUrl: videoUrl,
+                    cover: thumb,
+                    title: titleText
+                };
+            } else {
+                throw new Error(result.message || 'Gagal mengambil dari ssstik');
+            }
+        } catch (err) {
+            console.error('Fallback error:', err);
+            throw new Error('Maaf, layanan download sedang sibuk. Coba lagi nanti atau periksa URL Anda.');
+        }
+    }
+
+    // Event utama: tombol ditekan
+    async function handleFetchVideo() {
+        let rawUrl = urlInput.value.trim();
+        if (!rawUrl) {
+            showError('Harap masukkan URL video TikTok terlebih dahulu.');
+            return;
+        }
+
+        // Regex sederhana: cek mengandung tiktok.com atau vt.tiktok
+        if (!rawUrl.includes('tiktok.com') && !rawUrl.includes('vt.tiktok')) {
+            showError('URL tidak valid. Pastikan link dari TikTok (contoh: https://www.tiktok.com/@.../video/...)');
+            return;
+        }
+
+        showLoading();
+        try {
+            const videoInfo = await fetchVideoFromTikTok(rawUrl);
+            if (videoInfo && videoInfo.videoUrl) {
+                showVideoResult(videoInfo);
+            } else {
+                showError('Tidak dapat mengekstrak video. Video mungkin dihapus atau bersifat private.');
+            }
+        } catch (err) {
+            console.error(err);
+            let pesan = err.message || 'Terjadi kesalahan saat mengambil video.';
+            if (pesan.includes('Failed to fetch') || pesan.includes('NetworkError')) {
+                pesan = 'Koneksi bermasalah atau CORS error. Coba gunakan VPN / cek koneksi internet.';
+            }
+            showError(pesan);
+        }
+    }
+
+    // Event listeners
+    fetchBtn.addEventListener('click', handleFetchVideo);
+    
+    // Optional: tekan enter pada input
+    urlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleFetchVideo();
+        }
+    });
+
+    // Initial placeholder hints
+    console.log("TikTok Downloader Siap — menggunakan API publik (TikWM + fallback)");
+</script>
+</body>
+</html>
